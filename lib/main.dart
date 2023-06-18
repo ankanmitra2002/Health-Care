@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'package:hello/views/login_view.dart';
+import 'package:hello/views/register_view.dart';
+import 'package:hello/views/verify_email_view.dart';
 
 import 'firebase_options.dart';
 
@@ -16,6 +18,10 @@ void main() {
         useMaterial3: true,
       ),
       home: const HomePage(),
+      routes: {
+        '/login/': (context) => LoginView(),
+        '/register/': (context) => RegisterView(),
+      },
     ),
   );
 }
@@ -25,31 +31,36 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: const Text('Home'),
+    return FutureBuilder(
+      future: Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
       ),
-      body: FutureBuilder(
-        future: Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform,
-        ),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              final user = FirebaseAuth.instance.currentUser;
-              final sol = user?.emailVerified ?? false;
-              if (sol) {
-                print("The User is verified");
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.done:
+            final user = FirebaseAuth.instance.currentUser;
+            if (user != null) {
+              if (user.emailVerified) {
+                print('Verified');
               } else {
-                print("Not Verified");
+                return const VerifyEmailView();
               }
-              return const Text('Done');
-            default:
-              return const Text('Loading..');
-          }
-        },
-      ),
+            } else {
+              return const LoginView();
+            }
+            // final sol = user?.emailVerified ?? false;
+            // if (sol) {
+            //   print("The User is verified");
+            //   return const Text('Done');
+            // } else {
+            //   print("Not Verified");
+            //   return const VerifyEmailView();
+            // }
+            return const Text('Done');
+          default:
+            return const CircularProgressIndicator();
+        }
+      },
     );
   }
 }
