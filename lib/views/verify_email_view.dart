@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hello/constants/routes.dart';
 
 class VerifyEmailView extends StatefulWidget {
   const VerifyEmailView({super.key});
@@ -24,7 +25,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
               final user = FirebaseAuth.instance.currentUser;
               await user?.sendEmailVerification();
               Navigator.of(context).pushNamedAndRemoveUntil(
-                '/login/',
+                loginroute,
                 (route) => false,
               );
             },
