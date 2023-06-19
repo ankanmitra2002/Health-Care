@@ -1,5 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hello/views/phone.dart';
 import 'package:pinput/pinput.dart';
+
+import '../Utilities/show_error_dialog.dart';
+import '../constants/routes.dart';
 
 class MyVerify extends StatefulWidget {
   const MyVerify({Key? key}) : super(key: key);
@@ -9,6 +14,7 @@ class MyVerify extends StatefulWidget {
 }
 
 class _MyVerifyState extends State<MyVerify> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     /* final defaultPinTheme = PinTheme(
@@ -31,7 +37,7 @@ class _MyVerifyState extends State<MyVerify> {
         color: Color.fromRGBO(234, 239, 243, 1),
       ),
     );*/
-
+    var code = "";
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -87,6 +93,9 @@ class _MyVerifyState extends State<MyVerify> {
 
                 showCursor: true,
                 onCompleted: (pin) => print(pin),
+                onChanged: (value) {
+                  code = value;
+                },
               ),
               SizedBox(
                 height: 20,
@@ -99,7 +108,25 @@ class _MyVerifyState extends State<MyVerify> {
                         primary: Colors.green.shade600,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
-                    onPressed: () {},
+                    onPressed: () async {
+                      try {
+                        PhoneAuthCredential credential =
+                            PhoneAuthProvider.credential(
+                                verificationId: MyPhone.verify, smsCode: code);
+
+                        // Sign the user in (or link) with the credential
+                        await auth.signInWithCredential(credential);
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          notesroute,
+                          (route) => false,
+                        );
+                      } catch (e) {
+                        await showErrorDialog(
+                          context,
+                          e.toString(),
+                        );
+                      }
+                    },
                     child: Text("Verify Phone Number")),
               ),
               Row(

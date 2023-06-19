@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/routes.dart';
 
 class MyPhone extends StatefulWidget {
+  static String verify = "";
   const MyPhone({super.key});
 
   @override
@@ -11,6 +13,7 @@ class MyPhone extends StatefulWidget {
 
 class _MyPhoneState extends State<MyPhone> {
   TextEditingController countryCode = TextEditingController();
+  var phone = "";
 
   @override
   void initState() {
@@ -80,6 +83,10 @@ class _MyPhoneState extends State<MyPhone> {
                     ),
                     Expanded(
                       child: TextField(
+                        keyboardType: TextInputType.phone,
+                        onChanged: (value) {
+                          phone = value;
+                        },
                         decoration: InputDecoration(
                             border: InputBorder.none, hintText: "Phone no."),
                       ),
@@ -94,9 +101,19 @@ class _MyPhoneState extends State<MyPhone> {
                 height: 45,
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context)
-                        .pushNamedAndRemoveUntil(myverify, (route) => false);
+                  onPressed: () async {
+                    await FirebaseAuth.instance.verifyPhoneNumber(
+                      phoneNumber: '${countryCode.text + phone}',
+                      verificationCompleted:
+                          (PhoneAuthCredential credential) {},
+                      verificationFailed: (FirebaseAuthException e) {},
+                      codeSent: (String verificationId, int? resendToken) {
+                        MyPhone.verify = verificationId;
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            myverify, (route) => false);
+                      },
+                      codeAutoRetrievalTimeout: (String verificationId) {},
+                    );
                   },
                   child: Text('Send OTP'),
                   style: ElevatedButton.styleFrom(
