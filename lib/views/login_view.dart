@@ -40,87 +40,115 @@ class _LoginViewState extends State<LoginView> {
         title: const Text('Login'),
         backgroundColor: Colors.green,
       ),
-      body: Column(
-        children: [
-          TextField(
-            controller: _email,
-            enableSuggestions: false,
-            autocorrect: false,
-            keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-              hintText: 'Email',
+      body: Container(
+        margin: EdgeInsets.only(left: 20, right: 20),
+        //color: Colors.blue,
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'asset/healthcare.jpg',
+              width: double.infinity,
+              height: 200,
             ),
-          ),
-          TextField(
-            controller: _pass,
-            obscureText: true,
-            enableSuggestions: false,
-            autocorrect: false,
-            decoration: const InputDecoration(
-              hintText: 'Password',
+            const SizedBox(height: 40),
+            TextField(
+              controller: _email,
+              enableSuggestions: false,
+              autocorrect: false,
+              keyboardType: TextInputType.emailAddress,
+              decoration: const InputDecoration(
+                hintText: 'Email',
+                border: InputBorder.none,
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 1, color: Colors.black),
+                ),
+              ),
+              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
             ),
-          ),
-          TextButton(
-            onPressed: () async {
-              final email = _email.text;
-              final pass = _pass.text;
+            const SizedBox(height: 10),
+            TextField(
+              controller: _pass,
+              obscureText: true,
+              enableSuggestions: false,
+              autocorrect: false,
+              decoration: const InputDecoration(
+                hintText: 'Password',
+                border: InputBorder.none,
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 1, color: Colors.black),
+                ),
+              ),
+              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              height: 40,
+              width: 200,
+              child: ElevatedButton(
+                onPressed: () async {
+                  final email = _email.text;
+                  final pass = _pass.text;
 
-              try {
-                await FirebaseAuth.instance
-                    .signInWithEmailAndPassword(email: email, password: pass);
+                  try {
+                    await FirebaseAuth.instance.signInWithEmailAndPassword(
+                        email: email, password: pass);
 
-                // ignore: use_build_context_synchronously
-                final user = FirebaseAuth.instance.currentUser;
-                if (user?.emailVerified ?? false) {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    notesroute,
-                    (route) => false,
-                  );
-                } else {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                      verifyEmailRoute, (route) => false);
-                }
-              } on FirebaseAuthException catch (e) {
-                if (e.code == 'user-not-found') {
-                  await showErrorDialog(
-                    context,
-                    'User Not Found',
-                  );
-                } else if (e.code == 'wrong-password') {
-                  await showErrorDialog(
-                    context,
-                    'Wrong Password',
-                  );
-                } else {
-                  await showErrorDialog(
-                    context,
-                    'Error: ${e.code}',
-                  );
-                }
-              } catch (e) {
-                await showErrorDialog(
-                  context,
-                  e.toString(),
-                );
-              }
-            },
-            child: const Text('Login'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil(registerroute, (route) => false);
-            },
-            child: const Text("Not registered Yet? Register"),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil(myphone, (route) => false);
-            },
-            child: const Text("Register with Phone Number"),
-          )
-        ],
+                    // ignore: use_build_context_synchronously
+                    final user = FirebaseAuth.instance.currentUser;
+                    if (user?.emailVerified ?? false) {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        notesroute,
+                        (route) => false,
+                      );
+                    } else {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          verifyEmailRoute, (route) => false);
+                    }
+                  } on FirebaseAuthException catch (e) {
+                    if (e.code == 'user-not-found') {
+                      await showErrorDialog(
+                        context,
+                        'User Not Found',
+                      );
+                    } else if (e.code == 'wrong-password') {
+                      await showErrorDialog(
+                        context,
+                        'Wrong Password',
+                      );
+                    } else {
+                      await showErrorDialog(
+                        context,
+                        'Error: ${e.code}',
+                      );
+                    }
+                  } catch (e) {
+                    await showErrorDialog(
+                      context,
+                      e.toString(),
+                    );
+                  }
+                },
+                child: const Text('Login'),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil(registerroute, (route) => false);
+              },
+              child: const Text("Not registered Yet? Register"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil(myphone, (route) => false);
+              },
+              child: const Text("Register with Phone Number"),
+            )
+          ],
+        ),
       ),
     );
   }
