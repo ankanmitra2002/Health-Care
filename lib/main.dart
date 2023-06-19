@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:hello/constants/routes.dart';
 
 import 'package:hello/views/login_view.dart';
+import 'package:hello/views/otp.dart';
+import 'package:hello/views/phone.dart';
 import 'package:hello/views/register_view.dart';
 import 'package:hello/views/verify_email_view.dart';
 
@@ -23,6 +25,9 @@ void main() {
         loginroute: (context) => const LoginView(),
         registerroute: (context) => const RegisterView(),
         notesroute: (context) => const NotesView(),
+        myphone: (context) => const MyPhone(),
+        myverify: (context) => const MyVerify(),
+        verifyEmailRoute: (context) => const VerifyEmailView(),
       },
     ),
   );

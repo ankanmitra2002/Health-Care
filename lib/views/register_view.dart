@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
+import 'package:hello/Utilities/show_error_dialog.dart';
 import 'package:hello/constants/routes.dart';
 
 //import '../firebase_options.dart';
@@ -37,6 +38,7 @@ class _RegisterViewState extends State<RegisterView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Register'),
+        backgroundColor: Colors.green,
       ),
       body: Column(
         children: [
@@ -65,12 +67,21 @@ class _RegisterViewState extends State<RegisterView> {
               try {
                 await FirebaseAuth.instance.createUserWithEmailAndPassword(
                     email: email, password: pass);
+                final user = FirebaseAuth.instance.currentUser;
+                user?.sendEmailVerification();
+                Navigator.of(context).pushNamed(verifyEmailRoute);
               } on FirebaseAuthException catch (e) {
-                if (e.code == 'user-not-found') {
-                  print('User-Not-Found');
-                } else if (e.code == 'wrong-password') {
-                  print('wrong-password');
+                if (e.code == 'weak-password') {
+                  await showErrorDialog(context, 'Weak password');
+                } else if (e.code == 'email-already-in-use') {
+                  await showErrorDialog(context, 'email-already-in-use');
+                } else if (e.code == 'invalid-email') {
+                  await showErrorDialog(context, 'Invalid Email Address');
+                } else {
+                  await showErrorDialog(context, 'Error:${e.code}');
                 }
+              } catch (e) {
+                await showErrorDialog(context, e.toString());
               }
             },
             child: const Text('Register'),

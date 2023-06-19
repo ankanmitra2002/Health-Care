@@ -1,3 +1,7 @@
 const loginroute = '/login/';
 const registerroute = '/register/';
 const notesroute = '/notes/';
+
+const myphone = 'phone';
+const myverify = 'otp';
+const verifyEmailRoute = '/verify-email/';
