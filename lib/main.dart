@@ -3,11 +3,13 @@ import 'package:hello/constants/routes.dart';
 import 'package:hello/services/auth/auth_service.dart';
 
 import 'package:hello/views/login_view.dart';
-import 'package:hello/views/notes_view.dart';
+import 'package:hello/views/notes/new_notes_view.dart';
+import 'package:hello/views/notes/notes_view.dart';
 import 'package:hello/views/otp.dart';
 import 'package:hello/views/phone.dart';
 import 'package:hello/views/register_view.dart';
 import 'package:hello/views/verify_email_view.dart';
+//import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +30,7 @@ void main() {
         myphone: (context) => const MyPhone(),
         myverify: (context) => const MyVerify(),
         verifyEmailRoute: (context) => const VerifyEmailView(),
+        newNotesRoute: (context) => const NewNotesView(),
       },
     ),
   );

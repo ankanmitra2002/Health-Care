@@ -5,3 +5,4 @@ const notesroute = '/notes/';
 const myphone = 'phone';
 const myverify = 'otp';
 const verifyEmailRoute = '/verify-email/';
+const newNotesRoute = '/notes/new_notes_view';
