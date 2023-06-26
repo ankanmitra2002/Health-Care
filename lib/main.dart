@@ -3,8 +3,9 @@ import 'package:hello/constants/routes.dart';
 import 'package:hello/services/auth/auth_service.dart';
 
 import 'package:hello/views/login_view.dart';
+import 'package:hello/views/new_profile.dart';
 import 'package:hello/views/notes/new_notes_view.dart';
-import 'package:hello/views/notes/notes_view.dart';
+
 import 'package:hello/views/otp.dart';
 import 'package:hello/views/phone.dart';
 import 'package:hello/views/register_view.dart';

@@ -3,6 +3,8 @@ import 'package:hello/Utilities/show_error_dialog.dart';
 import 'package:hello/constants/routes.dart';
 import 'package:hello/services/auth/auth_exceptions.dart';
 import 'package:hello/services/auth/auth_service.dart';
+import 'package:hello/views/profile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //import '../firebase_options.dart';
 
@@ -16,6 +18,11 @@ class RegisterView extends StatefulWidget {
 class _RegisterViewState extends State<RegisterView> {
   late final TextEditingController _email;
   late final TextEditingController _pass;
+  int? id;
+  Future<void> _addItem() async {
+    await SQLHelper.createItem(_email.text, '', '', '');
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -98,12 +105,17 @@ class _RegisterViewState extends State<RegisterView> {
                     child: ElevatedButton(
                         onPressed: () async {
                           final email = _email.text;
+
                           final pass = _pass.text;
+
                           try {
                             await Authservice.firebase()
                                 .createUser(email: email, password: pass);
 
                             Authservice.firebase().sendEmailVerification();
+                            await _addItem();
+                            var prefs = await SharedPreferences.getInstance();
+                            prefs.setInt(email, id!);
                             Navigator.of(context).pushNamed(verifyEmailRoute);
                           } on WeakPasswordException {
                             await showErrorDialog(context, 'Weak password');
