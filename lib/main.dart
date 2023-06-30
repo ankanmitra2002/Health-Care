@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:hello/constants/routes.dart';
 import 'package:hello/services/auth/auth_service.dart';
 
+import 'package:hello/providers/models_provider.dart';
+import 'package:provider/provider.dart';
+
+import 'constants/constants.dart';
+import 'providers/chats_provider.dart';
+
 import 'package:hello/views/login_view.dart';
 import 'package:hello/views/notes/new_notes_view.dart';
 import 'package:hello/views/notes/notes_view.dart';
 import 'package:hello/views/otp.dart';
+import 'package:hello/views/notes/chat_view.dart';
 import 'package:hello/views/phone.dart';
 import 'package:hello/views/register_view.dart';
 import 'package:hello/views/verify_email_view.dart';
@@ -14,12 +21,21 @@ import 'package:hello/views/verify_email_view.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(
-    MaterialApp(
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (_) => ModelsProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (_) => ChatProvider(),
+      ),
+    ],
+    child: MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 48, 143, 221)),
         useMaterial3: true,
       ),
       home: const HomePage(),
@@ -31,9 +47,31 @@ void main() {
         myverify: (context) => const MyVerify(),
         verifyEmailRoute: (context) => const VerifyEmailView(),
         newNotesRoute: (context) => const NewNotesView(),
+        chatroute: (context) => const ChatView(),
       },
     ),
-  );
+  )
+      // MaterialApp(
+      //   debugShowCheckedModeBanner: false,
+      //   title: 'Flutter Demo',
+      //   theme: ThemeData(
+      //     colorScheme:
+      //         ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 48, 143, 221)),
+      //     useMaterial3: true,
+      //   ),
+      //   home: const HomePage(),
+      //   routes: {
+      //     loginroute: (context) => const LoginView(),
+      //     registerroute: (context) => const RegisterView(),
+      //     notesroute: (context) => const NotesView(),
+      //     myphone: (context) => const MyPhone(),
+      //     myverify: (context) => const MyVerify(),
+      //     verifyEmailRoute: (context) => const VerifyEmailView(),
+      //     newNotesRoute: (context) => const NewNotesView(),
+      //     chatroute: (context) => const ChatView(),
+      //   },
+      // ),
+      );
 }
 
 class HomePage extends StatelessWidget {

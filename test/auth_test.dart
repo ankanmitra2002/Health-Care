@@ -6,7 +6,12 @@ import 'package:test/test.dart';
 void main() {
   group('Mock Authentication', () {
     final provider = MockAuthProvider();
-    test('Should not be initialized', () { expect(provider._isInitialized,false);},)
+    test(
+      'Should not be initialized',
+      () {
+        expect(provider._isInitialized, false);
+      },
+    );
   });
 }
 
@@ -47,7 +52,7 @@ class MockAuthProvider implements AuthProvider {
     if (!isInitialized) throw NotInitializedException();
     if (email == "foo@gmail.com") throw UserNotFoundException();
     if (password == "foo") throw WrongPasswordException();
-    final user = AuthUser(isEmailVerified: false);
+    final user = AuthUser(isEmailVerified: false, email: email);
     _user = user;
     return Future.value(user);
   }
@@ -65,7 +70,7 @@ class MockAuthProvider implements AuthProvider {
     if (!isInitialized) throw NotInitializedException();
     final user = _user;
     if (user == null) throw UserNotFoundException();
-    const newUser = AuthUser(isEmailVerified: true);
+    const newUser = AuthUser(isEmailVerified: true, email: "");
     _user = newUser;
     throw UnimplementedError();
   }

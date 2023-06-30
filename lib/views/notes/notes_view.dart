@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hello/services/auth/auth_service.dart';
 import 'package:hello/services/crud/notes_service.dart';
-
+import 'package:hello/views/notes/chat_view.dart';
 import '../../constants/routes.dart';
 import '../../enum/menu_action.dart';
 
@@ -53,50 +53,81 @@ class _NotesViewState extends State<NotesView> {
             },
           )
         ],
-        backgroundColor: Colors.amberAccent,
+        backgroundColor: const Color.fromARGB(255, 64, 255, 70),
       ),
-      body: FutureBuilder(
-        future: _notesService.getorcreateUser(email: userEmail),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              return StreamBuilder(
-                stream: _notesService.allNotes,
-                builder: (context, snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                    case ConnectionState.active:
-                      if (snapshot.hasData) {
-                        final allNotes = snapshot.data as List<DatabaseNote>;
-
-                        return ListView.builder(
-                          itemCount: allNotes.length,
-                          itemBuilder: (context, index) {
-                            final note = allNotes[index];
-                            return ListTile(
-                              title: Text(
-                                note.text,
-                                maxLines: 1,
-                                softWrap: true,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            );
-                          },
-                        );
-                      } else {
-                        return CircularProgressIndicator();
-                      }
-                    default:
-                      return CircularProgressIndicator();
-                  }
-                },
-              );
-
-            default:
-              return CircularProgressIndicator();
-          }
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.smart_toy_rounded),
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const ChatView(),
+              fullscreenDialog: true,
+            ),
+          );
+          // showDialog(
+          //   context: context,
+          //   builder: (context) {
+          //     return Dialog(
+          //       shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(20)),
+          //       elevation: 16,
+          //       child: Container(
+          //           height: 700,
+          //           child: const Column(
+          //             children: [],
+          //           )),
+          //     );
+          //   },
+          // );
         },
       ),
+      // body: FutureBuilder(
+      //   future: _notesService.getorcreateUser(email: userEmail),
+      //   builder: (context, snapshot) {
+      //     switch (snapshot.connectionState) {
+      //       case ConnectionState.done:
+      //         return StreamBuilder(
+      //           stream: _notesService.allNotes,
+      //           builder: (context, snapshot) {
+      //             switch (snapshot.connectionState) {
+      //               case ConnectionState.waiting:
+      //               case ConnectionState.active:
+      //                 if (snapshot.hasData) {
+      //                   final allNotes = snapshot.data as List<DatabaseNote>;
+
+      //                   return ListView.builder(
+      //                     itemCount: allNotes.length,
+      //                     itemBuilder: (context, index) {
+      //                       final note = allNotes[index];
+      //                       return ListTile(
+      //                         title: Text(
+      //                           note.text,
+      //                           maxLines: 1,
+      //                           softWrap: true,
+      //                           overflow: TextOverflow.ellipsis,
+      //                         ),
+      //                       );
+      //                     },
+      //                   );
+      //                 } else {
+      //                   return CircularProgressIndicator();
+      //                 }
+      //               default:
+      //                 return CircularProgressIndicator();
+      //             }
+      //           },
+      //         );
+
+      //       default:
+      //         return CircularProgressIndicator();
+      //     }
+      //   },
+      // ),
+      // body: Container(
+      //     alignment: Alignment.bottomRight,
+      //     child: Column(
+      //       children: [],
+      //     )),
     );
   }
 }
