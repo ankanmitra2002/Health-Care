@@ -66,17 +66,12 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 const SizedBox(height: 10),
                 FloatingActionButton.extended(
-                  extendedPadding: EdgeInsets.only(left: 100, right: 100),
+                  extendedPadding: EdgeInsets.only(left: 150, right: 150),
                   label: const Text(
-                    'Sign In with Google',
+                    'Sign In with ABHA',
                     style: TextStyle(color: Colors.white),
                   ), // <-- Text
                   backgroundColor: Colors.black,
-                  icon: Image.asset(
-                    'asset/google.png',
-                    width: 30,
-                    height: 30,
-                  ),
                   onPressed: () {
                     print("google");
                   },
