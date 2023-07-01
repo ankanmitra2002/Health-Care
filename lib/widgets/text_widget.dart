@@ -22,7 +22,8 @@ class TextWidget extends StatelessWidget {
         color: color ?? Colors.white,
         fontSize: fontSize,
         fontWeight: fontWeight ?? FontWeight.w500,
-      ),
+        ),
     );
+   
   }
 }

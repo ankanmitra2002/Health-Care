@@ -19,8 +19,13 @@ class ChatWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Material(
-          color: chatIndex == 0 ? messageColor : Colors.deepPurple,
+      Align(
+        alignment: chatIndex == 0 ?Alignment.centerLeft : Alignment.centerRight,
+        child: SizedBox(
+        width: 250,
+         child: Material(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          color: chatIndex == 0 ? messageColor : Colors.white,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -39,12 +44,15 @@ class ChatWidget extends StatelessWidget {
                 Expanded(
                   child: chatIndex == 0
                       ? TextWidget(
-                          label: msg,
+                        label: msg,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16,
                         )
                       : shouldAnimate
                           ? DefaultTextStyle(
                               style: const TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.w700,
                                   fontSize: 16),
                               child: AnimatedTextKit(
@@ -61,7 +69,7 @@ class ChatWidget extends StatelessWidget {
                           : Text(
                               msg.trim(),
                               style: const TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.w700,
                                   fontSize: 16),
                             ),
@@ -89,6 +97,8 @@ class ChatWidget extends StatelessWidget {
             ),
           ),
         ),
+        )
+        )
       ],
     );
   }
