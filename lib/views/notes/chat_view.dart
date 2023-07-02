@@ -85,14 +85,14 @@ class _ChatViewState extends State<ChatView> {
             icon: const Icon(Icons.more_vert_rounded, color: Colors.white),
           ),
         ],
-        elevation: 2,
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Image.asset(AssetsManager.govLogo,
-          width: 3,
-          height: 2,
-          ),
-        ),
+        // elevation: 2,
+        // leading: Padding(
+        //   padding: const EdgeInsets.all(8.0),
+        //   child: Image.asset(AssetsManager.govLogo,
+        //   width: 3,
+        //   height: 2,
+        //   ),
+        //),
       ),
       body: SafeArea(
         child: Column(

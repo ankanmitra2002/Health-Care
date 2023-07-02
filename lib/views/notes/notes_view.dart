@@ -58,11 +58,13 @@ class _NotesViewState extends State<NotesView> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.smart_toy_rounded),
         onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const ChatView(),
-              fullscreenDialog: true,
-            ),
+          // Navigator.of(context).push(
+          //   MaterialPageRoute(
+          //     builder: (context) => const ChatView(),
+          //     fullscreenDialog: true,
+          //   ),
+          Navigator.of(context).pushNamed(
+          chatroute
           );
           // showDialog(
           //   context: context,
