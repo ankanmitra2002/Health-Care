@@ -19,10 +19,14 @@ class ChatWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+         SizedBox(
+            height: 15,
+          ),
       Align(
         alignment: chatIndex == 0 ?Alignment.centerLeft : Alignment.centerRight,
-        child: SizedBox(
-        width: 250,
+        child:
+        SizedBox(
+        width: 400,
          child: Material(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           color: chatIndex == 0 ? messageColor : Colors.white,
@@ -39,7 +43,7 @@ class ChatWidget extends StatelessWidget {
                   width: 30,
                 ),
                 const SizedBox(
-                  width: 8,
+                  width: 4,
                 ),
                 Expanded(
                   child: chatIndex == 0
